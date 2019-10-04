@@ -10,12 +10,14 @@ class Category extends Model
     protected $table = 'category';
     public $timestamps = false;
 
-    public function categoriesTranslation(){
-        return $this->hasOne(CategoryTitleTranslation::class);
+    //relation with category translation 
+    public function translation(){
+       return $this->hasOne(CategoryTitleTranslation::class);
     }
 
-    public function hasRecipe(){
-        return $this->hasOne(Recipe::class);
+    //relation to recipe - one on one relation
+    public function recipe(){
+        return $this->belongsTo(Recipe::class, 'recipe_id');
     }
 
     

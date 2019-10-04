@@ -9,6 +9,7 @@ class DatabaseSeeder extends Seeder
      *
      * @return void
      */
+    //calling seeder classes
     public function run()
     {
         $this->call(CategoriesTitleTranslationTableSeeder::class);

@@ -12,7 +12,7 @@ class RecipesTagsTableSeeder extends Seeder
     public function run() 
     {
         //seeding pivot tables using DB::table, there was an unexpected results
-        //while using Eloquent to seed pivot table
+        //while using Eloquent to seed pivot table - internet showed to to this this way 
         DB::table('recipe_tag')->insert(array(
             array('recipe_id' => 1,'tag_id' => 1),
             array('recipe_id' => 1,'tag_id' => 2),

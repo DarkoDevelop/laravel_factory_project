@@ -10,6 +10,7 @@ class RecipeTitleTranslation extends Model
     protected $table = 'title_recipes_translation';
     public $timestamps = false;
 
+    //relation with recipe table
     public function recipe(){
         return $this->belongsTo(Recipe::class);
     }

@@ -10,6 +10,7 @@ class CategoryTitleTranslation extends Model
     protected $table = 'categories_title_translation';
     public $timestamps = false;
 
+    //relation with category table
     public function category(){
         return $this->belongsTo(Category::class);
     }
