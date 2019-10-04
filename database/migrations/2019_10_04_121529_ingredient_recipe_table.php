@@ -4,19 +4,19 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRecipesTagsTable extends Migration
+class IngredientRecipeTable extends Migration
 {
     /**
      * Run the migrations.
-     * 
+     *
      * @return void
-     */ 
+     */
     public function up()
     {
-        Schema::create('recipes_tags', function (Blueprint $table) {
+        Schema::create('ingredient_recipe', function (Blueprint $table) {
             $table->integer('recipe_id');
-            $table->integer('tag_id')->unsigned();;
-            $table->primary(['tag_id', 'recipe_id']);
+            $table->integer('ingredient_id')->unsigned();
+            $table->primary(['ingredient_id', 'recipe_id']);
         });
     }
 
@@ -27,6 +27,6 @@ class CreateRecipesTagsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('recipes_tags');
+        Schema::dropIfExists('ingredient_recipe');
     }
 }

@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class RecipeTagPivot extends Model
 {
     //To be sure to attach right table
-    protected $table = 'recipes_tags';
+    protected $table = 'recipe_tag';
     public $timestamps = false;
 }

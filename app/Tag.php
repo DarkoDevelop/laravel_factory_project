@@ -10,8 +10,8 @@ class Tag extends Model
     protected $table = 'tags';
     public $timestamps = false;
 
-    public function tagHaveRecipes(){
-        return $this->belongsToMany(Recipes::class);
+    public function recipes(){
+        return $this->belongsToMany(Recipe::class);
     }
     public function translation(){
         $this->hasOne(TitleTagTranslation::class);

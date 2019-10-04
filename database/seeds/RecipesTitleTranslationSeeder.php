@@ -11,6 +11,6 @@ class RecipesTitleTranslationSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\RecipeTitleTranslation::class, 20)->create();
+        factory(App\RecipeTitleTranslation::class, 10)->create();
     }
 }

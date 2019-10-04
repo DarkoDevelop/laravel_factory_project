@@ -12,15 +12,19 @@ class Recipe extends Model
     //One on one relationship with Category
     //Check if recipe has category, if true, return that category, if not, return null == ??
     public function category(){
-        return optional($recipe->category)->$this->hasOne(Category::class);
+        return $this->hasOne(Category::class);
     }
 
-    public function recipesTitleTranslation(){
+    public function titleTranslation(){
         return $this->hasOne(RecipeTitleTranslation::class);
     }
 
-    public function descriptionRecipeTranslation(){
+    public function recipeTranslation(){
         return $this->hasOne(DescriptionRecipeTranslation::class);
+    }
+
+    public function tags(){
+        return $this->belongsToMany(Tag::class);
     }
  
 }

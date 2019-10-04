@@ -11,6 +11,6 @@ class IngredientsRecipesTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\IngredientRecipePivot::class, 20)->create();
+        factory(App\IngredientRecipePivot::class, 20)->create(); 
     }
 }

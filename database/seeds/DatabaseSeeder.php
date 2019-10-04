@@ -14,14 +14,14 @@ class DatabaseSeeder extends Seeder
         $this->call(CategoriesTitleTranslationTableSeeder::class);
         $this->call(CategoryTableSeeder::class);
         $this->call(DescriptionRecipesTranslationTableSeeder::class);
-        //$this->call(IngredientsRecipesTableSeeder::class);
-        //$this->call(IngredientsTableSeeder::class);
+        $this->call(IngredientsRecipesTableSeeder::class);
+        $this->call(IngredientsTableSeeder::class);
         $this->call(IngredientsTitleTranslationTableSeeder::class);
         $this->call(LanguagesTableSeeder::class);
         $this->call(RecipesTableSeeder::class);
-        //$this->call(RecipesTagsTableSeeder::class);
+        $this->call(RecipesTagsTableSeeder::class);
         $this->call(RecipesTitleTranslationSeeder::class);
-        //$this->call(TagsTableSeeder::class);
+        $this->call(TagsTableSeeder::class);
         $this->call(TitleTagsTranslationSeeder::class);
     }
 }

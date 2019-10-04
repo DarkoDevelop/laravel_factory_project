@@ -11,6 +11,6 @@ class TitleTagsTranslationSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\TitleTagTranslation::class, 10)->create();
+        factory(App\TitleTagTranslation::class, 20)->create();
     }
 }
