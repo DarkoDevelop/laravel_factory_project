@@ -11,6 +11,6 @@ class TitleTagTranslation extends Model
     public $timestamps = false;
 
     public function tag(){
-        $this->belongsTo(Tag::class);
+        return $this->belongsTo(Tag::class);
     }
 }

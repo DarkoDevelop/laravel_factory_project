@@ -5,17 +5,14 @@ use App\Category;
 use App\CategoryTitleTranslation;
 use App\DescriptionRecipeTranslation;
 use App\Ingredient;
-use App\IngredientRecipePivot;
 use App\IngredientTitleTranslation;
 use App\Language;
 use App\Recipe;
-use App\RecipeTagPivot;
 use App\RecipeTitleTranslation;
 use App\Tag;
 use App\TitleTagTranslation;
 use Faker\Generator as Faker;
 use Illuminate\Support\Str;
-
 
 /*
 |--------------------------------------------------------------------------
@@ -51,6 +48,7 @@ $factory->define(Category::class, function (Faker $faker) {
     static $slugIncrementer = 1;
     return [
         'slug' => 'category-'.$slugIncrementer++,
+        'recipe_id' => $faker->unique()->numberBetween($min = 1, $max = 10),
     ];
 });
 
@@ -65,22 +63,6 @@ $factory->define(Tag::class, function (Faker $faker) {
     static $slugIncrementer = 1;
     return [
         'slug' => 'tag-'.$slugIncrementer++,
-    ];
-});
-
-$factory->define(RecipeTagPivot::class, function (Faker $faker) {
-    static $slugIncrementer = 2;
-    return [
-        'recipe_id' => intdiv($slugIncrementer, 2),
-        'tag_id' => ($slugIncrementer++)-1,
-    ];
-});
-
-$factory->define(IngredientRecipePivot::class, function (Faker $faker) {
-    static $slugIncrementer = 2;
-    return [
-        'recipe_id' => intdiv($slugIncrementer, 2),
-        'ingredient_id' => ($slugIncrementer++)-1,
     ];
 });
 

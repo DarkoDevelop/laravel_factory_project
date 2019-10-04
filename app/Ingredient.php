@@ -14,6 +14,6 @@ class Ingredient extends Model
         return $this->belongsToMany(Recipe::class);
     }
     public function ingredientsTitleTranslation(){
-        $this->hasOne(IngredientTitleTranslation::class);
+        return $this->hasOne(IngredientTitleTranslation::class);
     }
 }

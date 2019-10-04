@@ -16,7 +16,6 @@ class RecipeTagTable extends Migration
         Schema::create('recipe_tag', function (Blueprint $table) {
             $table->integer('recipe_id');
             $table->integer('tag_id')->unsigned();
-            $table->primary(['recipe_id', 'tag_id']);
         });
     }
 

@@ -11,6 +11,6 @@ class DescriptionRecipeTranslation extends Model
     public $timestamps = false;
 
     public function recipe(){
-        $this->belongsTo(Recipe::class);
+        return $this->belongsTo(Recipe::class);
     }
 }

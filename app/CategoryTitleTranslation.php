@@ -11,6 +11,6 @@ class CategoryTitleTranslation extends Model
     public $timestamps = false;
 
     public function category(){
-        $this->belongsTo(Category::class);
+        return $this->belongsTo(Category::class);
     }
 }

@@ -16,7 +16,6 @@ class IngredientRecipeTable extends Migration
         Schema::create('ingredient_recipe', function (Blueprint $table) {
             $table->integer('recipe_id');
             $table->integer('ingredient_id')->unsigned();
-            $table->primary(['ingredient_id', 'recipe_id']);
         });
     }
 

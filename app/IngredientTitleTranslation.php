@@ -11,6 +11,6 @@ class IngredientTitleTranslation extends Model
     public $timestamps = false;
 
     public function ingredient(){
-        $this->belongsTo(Ingredient::class);
+        return $this->belongsTo(Ingredient::class);
     }
 }

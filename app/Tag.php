@@ -14,6 +14,6 @@ class Tag extends Model
         return $this->belongsToMany(Recipe::class);
     }
     public function translation(){
-        $this->hasOne(TitleTagTranslation::class);
+        return $this->hasOne(TitleTagTranslation::class);
     }
 }

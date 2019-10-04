@@ -10,12 +10,12 @@ class Category extends Model
     protected $table = 'category';
     public $timestamps = false;
 
-    public function categoriesTitleTranslation(){
-        $this->hasOne(CategoryTitleTranslation::class);
+    public function categoriesTranslation(){
+        return $this->hasOne(CategoryTitleTranslation::class);
     }
 
-    public function hasNoneOrOneRecipe(){
-        $this->hasOne(Recipe::class);
+    public function hasRecipe(){
+        return $this->hasOne(Recipe::class);
     }
 
     
