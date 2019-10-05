@@ -67,11 +67,10 @@ $factory->define(Tag::class, function (Faker $faker) {
 });
 
 $factory->define(Language::class, function (Faker $faker) {
-    static $idIncrementer = 0;
-    
-    $arrayOfLanguages = array("hr", "en", "de");
+    $languages = array('hr', 'en', 'de');
+    static $slugIncrementer = 0;
     return [
-        'languages' => $arrayOfLanguages[$idIncrementer++],
+        'lang' => $languages[$slugIncrementer++],
     ];
 });
 

@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Recipe;
+use App\Language;
 use Illuminate\Http\Request;
+use App\Http\Requests\FormRecipeRequest;
+use Illuminate\Pagination\Paginator;
 
 class RecipeController extends Controller
 {
@@ -12,74 +15,114 @@ class RecipeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+
+public function index(FormRecipeRequest $request)
     {
-        //
+         return 'ova tabla je dobra';
+    }   
+}
+
+
+
+
+
+
+
+
+
+
+
+        /*
+
+{
+        //validating data
+        $validatedData = $request->validate([
+            'per_page' => 'integer',
+            'page' => 'integer',
+            'category' => 'integer|between:0,5',
+            'tags' => 'integer|between:0,20',
+            'with' => 'required_with: ingredients, category, tags',
+            'lang'=> 'unique:languages,languages',
+            'diff_time' => 'date|integer|between:0000000001,9999999999',
+        ]);
+        return 'table is good';   
+    }  
+
+
+        {
+
+            $per_page = $request->query('per_page');
+            $page= $request->query('page');
+            $category= $request->query('category');
+            $tags = $request->query('tags');
+            $with = $request->query('with');
+            $lang = $request->query('lang');
+            $diff_time = $request->query('diff_time');
+
+            // returns array of entire input query...can now use $query['value'], etc. to access data
+            $query = $request->all();
+
+            // Or to keep business logic out of controller, I use like:
+            $n = new MyClass($request->all());
+            $n->doSomething();
+            $n->etc();
+
+
+            $validatedData = $request->validate([
+                'per_page' => 'unique|max:255',
+                'page' => 'required',
+                'category' => 'required',
+                'tags' => 'required',
+                'with' => 'required',
+                'lang' => 'required',
+                'diff_time' => 'required',
+            ]);
+            // The blog post is valid...
+        
+        $results = Recipe::all()
+        return $results;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function meta(){
+        $results = Recipe::paginate();
+        return $results;
+        
+
+    }
+
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+  
     public function store(Request $request)
     {
         //
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Recipe  $recipe
-     * @return \Illuminate\Http\Response
-     */
+
     public function show(Recipe $recipe)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Recipe  $recipe
-     * @return \Illuminate\Http\Response
-     */
+  
     public function edit(Recipe $recipe)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Recipe  $recipe
-     * @return \Illuminate\Http\Response
-     */
+  
     public function update(Request $request, Recipe $recipe)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Recipe  $recipe
-     * @return \Illuminate\Http\Response
-     */
+   
     public function destroy(Recipe $recipe)
     {
         //
     }
-}
+    */
+
