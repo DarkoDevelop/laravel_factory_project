@@ -17,11 +17,7 @@ class FormRecipeRequest extends FormRequest
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
+    //validating all requests
     public function rules()
     {
         return [
@@ -31,7 +27,7 @@ class FormRecipeRequest extends FormRequest
             'tags' => 'integer|between:0,20',
             'with' => 'required_with: ingredients, category, tags',
             'lang'=> 'required|exists:languages,lang',
-            'diff_time' => 'date|integer|between:0000000001,9999999999'
+            'diff_time' => 'digits_between:10,10'
         ];
     }
 }
