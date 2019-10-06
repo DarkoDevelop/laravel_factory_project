@@ -10,6 +10,7 @@ class Category extends Model
     protected $table = 'category';
     public $timestamps = false;
 
+
     //relation with category translation 
     public function translation(){
        return $this->hasOne(CategoryTitleTranslation::class);
