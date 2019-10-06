@@ -22,17 +22,23 @@ class RecipeController extends Controller
         $validated = $request->validated();
         $lang = $validated['lang'];
 
+        $data = DB::table('recipes')
+                ->join('title_recipes_translation','title_recipes_translation.recipe_id','=','recipes.id')
+                ->join('description_recipes_translation','description_recipes_translation.recipe_id','=','recipes.id')
+                ->select('recipes.id','title_recipes_translation.title_recipes_'.$lang, 'description_recipes_translation.description_recipes_'.$lang)
+                //->select(status:created)
+                //->paginate($validated['per_page'])
+                ->get();
+            
+                 
+        //if(empty($myvar))
         
-
-
-        if(!isset($validated['per_page']))
-            $per_page = null;
-         else
-            $per_page = $validated['per_page'];
-
-            return $per_page.$lang;       
+        return (response()->json($data));
+        //foreach($data as $item)
+        //    return $item;
                         
-    }     
+    }   
+
 }
 
 
@@ -46,6 +52,13 @@ class RecipeController extends Controller
 
 
         /*
+
+        if(!isset($validated['per_page']))
+            $per_page = null;
+         else
+            $per_page = $validated['per_page'];
+
+            return $per_page.$lang;       
 
 {
         //validating data
