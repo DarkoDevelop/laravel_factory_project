@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Recipe;
 use App\Language;
 use Illuminate\Http\Request;
+use DB;
 use App\Http\Requests\FormRecipeRequest;
 use Illuminate\Pagination\Paginator;
 
@@ -16,10 +17,22 @@ class RecipeController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-public function index(FormRecipeRequest $request)
+    public function index(FormRecipeRequest $request)
     {
-         return 'ova tabla je dobra';
-    }   
+        $validated = $request->validated();
+        $lang = $validated['lang'];
+
+        
+
+
+        if(!isset($validated['per_page']))
+            $per_page = null;
+         else
+            $per_page = $validated['per_page'];
+
+            return $per_page.$lang;       
+                        
+    }     
 }
 
 

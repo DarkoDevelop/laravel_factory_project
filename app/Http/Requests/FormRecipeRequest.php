@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Requests;
+
 use App\Language;
 use App\Http\Conttrollers\RecipeController;
 use Illuminate\Foundation\Http\FormRequest;
@@ -19,7 +20,7 @@ class FormRecipeRequest extends FormRequest
 
     //validating all requests
     public function rules()
-    {
+    { 
         return [
             'per_page' => 'integer',
             'page' => 'integer',
