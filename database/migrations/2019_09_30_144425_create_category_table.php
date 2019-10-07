@@ -16,6 +16,9 @@ class CreateCategoryTable extends Migration
         Schema::create('category', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('slug');
+            $table->string('categories_title_hr');
+            $table->string('categories_title_en');
+            $table->string('categories_title_de');
             $table->integer('recipe_id')->unique()->unsigned()->nullable();
         });
     }

@@ -30,7 +30,7 @@ class FormRecipeRequest extends FormRequest
             'page' => 'integer',
             'category' => 'integer|between:0,5|nullable',
             'tags' => 'numeric',
-            'with' => 'in:' .implode(',', $extra),
+            'with' => 'in:' .implode(',',$extra),
             'lang' => 'required|exists:languages,lang',
             'diff_time' => 'digits_between:10,10'  
         ];

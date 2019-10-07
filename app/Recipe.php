@@ -12,8 +12,10 @@ class Recipe extends Model
 
     //One on one relationship with Category
     //Check if recipe has category, if true, return that category, if not, return null 
-    public function category(){
-        return $this->hasOne(Category::class);
+    public function category($lang){
+        return $this->hasOne(Category::class)
+                    ->select('categories.id','categories_title_'.$lang, 'slug')
+                    ->get();
     }
 
     //relation with translation description table with extra queries
@@ -37,17 +39,13 @@ class Recipe extends Model
     }
 
     //making relation with Tag class using pivot table
-    public function tags(){
-        return $this->belongsToMany(Tag::class);
+    public function tags($lang){
+        $data = $this->belongsToMany(Tag::class)
+                     ->select('tags.id','title_tags_'.$lang, 'slug')
+                     ->get();
+        return $data;
     }
 
-    //making a function to get all recipes according to scpecific tag
-    //needs to be finished
-    public function filterTags($filter){
-        $data = $this->belongsToMany(Tag::class) 
-                    ->join('contacts', 'users.id', '=', 'contacts.user_id')
-                    ->select();
-    }
     
     //making relation with Ingredient class using pivot table
     public function ingredients(){

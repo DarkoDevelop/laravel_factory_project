@@ -14,13 +14,4 @@ class Ingredient extends Model
     public function recipes(){
         return $this->belongsToMany(Recipe::class);
     }
-
-    //relation with translation table for ingredients
-    public function translation(){
-        $data = $this->hasOne(IngredientTitleTranslation::class)
-                     ->select('ingredients_title_translation.title_ingredients_'.$lang)
-                     ->first();
-
-        return $data['title_ingredients_'.$lang];
-    }
 }
