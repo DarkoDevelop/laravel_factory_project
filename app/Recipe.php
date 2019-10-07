@@ -11,10 +11,10 @@ class Recipe extends Model
     protected $table = 'recipes';
 
     //One on one relationship with Category
-    //Check if recipe has category, if true, return that category, if not, return null 
+    //Check if recipe has category
     public function category($lang){
         return $this->hasOne(Category::class)
-                    ->select('categories.id','categories_title_'.$lang, 'slug')
+                    ->select('id','categories_title_'.$lang, 'slug')
                     ->get();
     }
 
@@ -46,10 +46,12 @@ class Recipe extends Model
         return $data;
     }
 
-    
     //making relation with Ingredient class using pivot table
-    public function ingredients(){
-        return $this->belongsToMany(Ingredient::class);
+    public function ingredients($lang){
+        $data = $this->belongsToMany(Ingredient::class)
+                    ->select('ingredients.id','title_ingredients_'.$lang, 'slug')
+                    ->get();
+        return $data;
     }
 
     //making function for returning status code for specific recipes

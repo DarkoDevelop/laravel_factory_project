@@ -43,50 +43,29 @@ class Recipe extends JsonResource
             'title' => $this->titleTranslation($lang, $this->id),
             'description' => $this->descriptionTranslation($lang, $this->id),
             'status' => $this->getStatus($diff_time, $this->id),
-            //'idd' => $this->tags($lang),
-            //'category' => $this->category,
-            //'ingredients' => $this->ingredients,
-
+  
             //returning tags
             'tags'=> 
                 $this->tags($lang)->map(function ($item) use ($lang){
                     $data = ['id' => $item->id, 'title' => $item->value('title_tags_'.$lang), 'slug' => $item->slug];
                     return $data;
                 }),
-
-            'category'=> [
-                //'title' => $this->category($lang),
-                //'id' => 'id',
-                //'title' => 'title',
-                //'slug' => 'slug',
-            ],
-            'ingredients'=> [
-                //'ingredients' => $this->ingredients,
-                //'id' => 'id',
-                //'title' => 'title',
-                //'slug' => 'slug',
-            ],
             
+            //returning category
+            'category'=> 
+                $this->category($lang)->map(function ($item) use ($lang){
+                    $data = ['id' => $item->id, 'title' => $item->value('categories_title_'.$lang), 'slug' => $item->slug];
+                    if(!empty($data))
+                        return $data;
+                    else 
+                        return "null"; //return null!!
+                }),
+            //returning ingredients
+            'ingredients'=> 
+                $this->ingredients($lang)->map(function ($item) use ($lang){
+                    $data = ['id' => $item->id, 'title' => $item->value('title_ingredients_'.$lang), 'slug' => $item->slug];
+                    return $data;
+            }), 
         ]; 
     }
 }
-/**
- * 
- * 
- * 
- * 'id' => $this->tags($lang)->map(function ($user) {
-                    return collect($user->toArray())
-                        ->only(['id'])
-                        ->first();
-                }),
-                'title' => $this->tags($lang)->map(function ($user,$lang) {
-                     return collect($user->toArray())
-                        ->only(['title_tags_'.$lang])
-                        ->first();
-                }),
-                'slug' =>$this->tags($lang)->map(function ($user) {
-                    return collect($user->toArray())
-                        ->only(['slug'])
-                        ->first();
-                }),
- */
