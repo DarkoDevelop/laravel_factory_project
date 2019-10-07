@@ -17,6 +17,10 @@ class Ingredient extends Model
 
     //relation with translation table for ingredients
     public function translation(){
-        return $this->hasOne(IngredientTitleTranslation::class);
+        $data = $this->hasOne(IngredientTitleTranslation::class)
+                     ->select('ingredients_title_translation.title_ingredients_'.$lang)
+                     ->first();
+
+        return $data['title_ingredients_'.$lang];
     }
 }

@@ -19,7 +19,7 @@ class RecipeController extends Controller
      * @return \Illuminate\Http\Response
      */
     static $lang;
-
+    
     public function index(FormRecipeRequest $request)
     {
         $validated = $request->validated();
@@ -32,17 +32,23 @@ class RecipeController extends Controller
         }else 
             $per_page = $validated['per_page'];
 
-        //Making default variable 
+        //Making default variable page
         if (empty($validated['page']))
         {
             $page = 0;
         }else 
             $page = $validated['page'];
  
+        //saving data to paginated format
+
+        //to do
+        //if loop for tags, decide if table needs to be sorted according to specific tags
+
+        //$data = Recipe::first();
         $data = Recipe::paginate($per_page);
         //$data = Recipe::all();
-        return new RecipeCollection($data);      
-        
+        return new RecipeCollection($data); 
+
     }  
 }
    

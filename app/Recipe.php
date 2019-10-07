@@ -40,6 +40,14 @@ class Recipe extends Model
     public function tags(){
         return $this->belongsToMany(Tag::class);
     }
+
+    //making a function to get all recipes according to scpecific tag
+    //needs to be finished
+    public function filterTags($filter){
+        $data = $this->belongsToMany(Tag::class) 
+                    ->join('contacts', 'users.id', '=', 'contacts.user_id')
+                    ->select();
+    }
     
     //making relation with Ingredient class using pivot table
     public function ingredients(){

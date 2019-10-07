@@ -12,8 +12,11 @@ class Category extends Model
 
 
     //relation with category translation 
-    public function translation(){
-       return $this->hasOne(CategoryTitleTranslation::class);
+    public function translation($lang){
+        $data = $this->hasOne(CategoryTitleTranslation::class)
+                ->select('categories_title_translation.categories_title_'.$lang)
+                ->first();
+        return $data['categories_title_'.$lang];
     }
 
     //relation to recipe - one on one relation
