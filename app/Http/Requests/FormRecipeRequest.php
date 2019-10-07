@@ -29,8 +29,7 @@ class FormRecipeRequest extends FormRequest
             'tags' => 'integer|between:0,20',
             'with' => 'required_with: ingredients, category, tags',
             'lang' => 'required|exists:languages,lang',
-            'diff_time' => 'date'
-            //'diff_time' => 'digits_between:10,10' //Placed for string input date format  
+            'diff_time' => 'digits_between:10,10'  
         ];
     }
 }

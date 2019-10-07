@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Recipe extends Model
 {
@@ -49,11 +50,28 @@ class Recipe extends Model
     public function getStatus($diff_time, $id){
         if($diff_time==0){
             return "created";
-        }else {
+        }else{
+            //fetching required data from database
+            $updated_at = $this->select('recipes.updated_at')->where('recipes.id', $id)->first();
+            $updatedAt = $updated_at['updated_at'];
+            $deleted_at = $this->select('recipes.deleted_at')->where('recipes.id', $id)->first();
+            $deletedAt = $deleted_at['deleted_at'];
 
+            //converting to timestamps to equal them all
+            $deletedAtPreFinal = Carbon::createFromFormat('Y-m-d', $deletedAt )->timestamp;
 
-            
-        }
+            //converting all to DateTime format - had major issues usig other formats
+            $deletedAtFinal = Carbon::createFromTimestamp($deletedAtPreFinal)->toDateTimeString(); 
+            $diffTimeFinal = Carbon::createFromTimestamp($diff_time)->toDateTimeString(); 
+           
+            //time to compare them
+            if ($diffTimeFinal <= $updatedAt){
+                return "created";
+            }else if(($diffTimeFinal > $updatedAt) && ($diffTimeFinal <= $deletedAtFinal)){
+                return "modified";
+            }else{
+                return "deleted";
+            }
+        }         
     }
- 
 }

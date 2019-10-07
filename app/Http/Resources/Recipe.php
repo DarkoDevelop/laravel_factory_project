@@ -21,13 +21,13 @@ class Recipe extends JsonResource
         //getting validated query and saving only lang to lang variable
         $allVariables = $request->query->all();
         $lang = $allVariables['lang'];
-
+        
         //Making default variable diff_time
-        if (empty($validated['diff_time']))
+        if (empty($allVariables['diff_time']))
         {
             $diff_time = 0;
         }else 
-            $diff_time = $validated['per_page'];
+            $diff_time = $allVariables['diff_time'];
 
         return [
             'id' => $this->id,
