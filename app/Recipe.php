@@ -46,6 +46,34 @@ class Recipe extends Model
         return $data;
     }
 
+    //get title name title on specific language
+    public function getTagName($id, $lang){
+        $data = $this->belongsToMany(Tag::class)
+                     ->select('tags.id','title_tags_'.$lang)
+                     ->where('tags.id', $id)
+                     ->first();
+        return $data['title_tags_'.$lang];
+    }
+
+    //get ingredient name on specific language
+    public function getIngredientName($id, $lang){
+        $data = $this->belongsToMany(Ingredient::class)
+                     ->select('ingredients.id','title_ingredients_'.$lang)
+                     ->where('ingredients.id', $id)
+                     ->first();
+        return $data['title_ingredients_'.$lang];
+    }
+
+    //get category name on specific language
+    public function getCategoryName($id, $lang){
+        $data = $this->hasOne(Category::class)
+                     ->select('category.id','categories_title_'.$lang)
+                     ->where('category.id', $id)
+                     ->first();
+        return $data['categories_title_'.$lang];
+    }
+
+
     //making relation with Ingredient class using pivot table
     public function ingredients($lang){
         $data = $this->belongsToMany(Ingredient::class)

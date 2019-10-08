@@ -47,14 +47,16 @@ class Recipe extends JsonResource
             //returning tags
             'tags'=> 
                 $this->tags($lang)->map(function ($item) use ($lang){
-                    $data = ['id' => $item->id, 'title' => $item->value('title_tags_'.$lang), 'slug' => $item->slug];
+                    $title = "title_tags_".$lang;
+                    //dd($item);
+                    $data = ['id' => $item->id, 'title' => $this->getTagName($item->id, $lang), 'slug' => $item->slug];
                     return $data;
                 }),
             
             //returning category
             'category'=> 
                 $this->category($lang)->map(function ($item) use ($lang){
-                    $data = ['id' => $item->id, 'title' => $item->value('categories_title_'.$lang), 'slug' => $item->slug];
+                    $data = ['id' => $item->id, 'title' =>  $this->getCategoryName($item->id, $lang), 'slug' => $item->slug];
                     if(!empty($data))
                         return $data;
                     else 
@@ -63,7 +65,7 @@ class Recipe extends JsonResource
             //returning ingredients
             'ingredients'=> 
                 $this->ingredients($lang)->map(function ($item) use ($lang){
-                    $data = ['id' => $item->id, 'title' => $item->value('title_ingredients_'.$lang), 'slug' => $item->slug];
+                    $data = ['id' => $item->id, 'title' => $this->getIngredientName($item->id, $lang), 'slug' => $item->slug];
                     return $data;
             }), 
         ]; 
