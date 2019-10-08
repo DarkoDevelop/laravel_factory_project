@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use App\Language;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use App\Rules\ValidCategory;
 use App\Http\Conttrollers\RecipeController;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -28,7 +29,8 @@ class FormRecipeRequest extends FormRequest
         return [
             'per_page' => 'integer',
             'page' => 'integer',
-            'category' => 'integer|between:0,5|nullable',
+            //'category' => 'integer|between:0,5|nullable',
+            'category' => ['nullable', new ValidCategory],
             'tags' => 'numeric',
             'with' => 'in:' .implode(',',$extra),
             'lang' => 'required|exists:languages,lang',
