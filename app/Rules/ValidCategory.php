@@ -23,9 +23,10 @@ class ValidCategory implements Rule
      * @param  mixed  $value
      * @return bool
      */
+    //validation for category field
     public function passes($attribute, $value)
     {
-        if(!(preg_match("/[a-z]/i", $value)) || ($value == "NULL") || ($value == "!NULL") ){
+        if((!(preg_match("/[a-z]/i", $value)) && ((1 <= $value) && ($value <= 5))) || ($value == "NULL") || ($value == "!NULL")){
             return true;
         } else
             return false;
