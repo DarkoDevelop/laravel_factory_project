@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use DB;
 
 class Tag extends Model
 {
@@ -11,7 +12,11 @@ class Tag extends Model
     public $timestamps = false;
 
     //relation with Recipe class using more to more relation
-    public function recipes(){
-        return $this->belongsToMany(Recipe::class);
+    public function recipes($id){
+        $data = DB::table('recipe_tag')
+                    ->select('recipe_id')
+                    ->whereIn('tag_id', $id)
+                    ->pluck('recipe_id')->toArray();
+        return $data;
     }
 }

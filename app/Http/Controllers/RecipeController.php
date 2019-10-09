@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Recipe;
+use App\Tag;
 use App\Language;
 use Illuminate\Http\Request;
 use DB;
@@ -22,9 +23,21 @@ class RecipeController extends Controller
     
     public function index(FormRecipeRequest $request)
     {
+        $recipeInstance = new Recipe();
+        $tagInstance = new Tag();
+
         $validated = $request->validated();
         $lang = $validated['lang'];
 
+        //Making default variable tags and making as array instead of string(which is by default)
+        if(empty($validated['tags'])){
+            $tags = null;
+        }else{
+            $tags = $validated['tags'];
+            $tags =(explode(",",$tags));
+        }
+        
+        //Making default variable category
         if(empty($validated['category'])){
             $category = ("!NULL");
         }else 
@@ -44,26 +57,31 @@ class RecipeController extends Controller
         }else 
             $page = $validated['page'];
 
-        $recipeInstance = new Recipe();
-
+        
+        
+        
         //saving data to paginated format
-        $data = Recipe::paginate($per_page);
+        //$data = Recipe::paginate($per_page);
 
         $numbers = $recipeInstance->getCategoryRecipeID()->toArray();
+        if($tags != null)
+            $tagsArray = array_unique($tagInstance->recipes($tags));
+        //dd($tagsArray);
 
-        //sorting by Tag
-        if($category == "NULL")
+        //this part contains logic for sorting by category and tags
+        if($category == "!NULL")
         {
-            $data = $data;
+            if(!isset($tagsArray))
+                $data = Recipe::paginate($per_page);
+            else
+                $data = Recipe::whereIn('id', $tagsArray)->paginate($per_page);
         }
-        elseif($category == "!NULL")
+        elseif($category == "NULL")
         {
-            $data = Recipe::where([
-                ['id', '!=', $numbers[0]],
-                ['id', '!=', $numbers[1]],
-                ['id', '!=', $numbers[2]],
-                ['id', '!=', $numbers[3]],
-                ['id', '!=', $numbers[4]]])->paginate($per_page);
+            if(!isset($tagsArray))
+                $data = Recipe::whereNotIn('id', $numbers)->paginate($per_page);
+            else
+                $data = Recipe::whereNotIn('id', $numbers)->whereIn('id', $tagsArray)->paginate($per_page);
         }
         elseif(is_int(intval($category)))
         {
@@ -71,11 +89,7 @@ class RecipeController extends Controller
             $a = $recipeInstance->getCategoryNumber($number)->toArray();
             $data = Recipe::where('id', '=', $a[0])->paginate($per_page);
         }
-        
-        //validation for tags
 
-        //dd($data);
-        //$data = Recipe::all();
         return new RecipeCollection($data); 
 
     }  
