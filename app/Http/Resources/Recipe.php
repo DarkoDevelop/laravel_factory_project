@@ -21,8 +21,29 @@ class Recipe extends JsonResource
     {
         //getting validated query and saving only lang to lang variable
         $allVariables = $request->query->all();
+
+        //getting language
         $lang = $allVariables['lang'];
 
+        //with variable and showing/hiding optional section
+        if(empty($allVariables['with'])){
+            $withExtra = [];
+        }else 
+            $withExtra = (explode(',', $allVariables['with']));
+        $displayIngredients = false;
+        $displayTags = false;
+        $displayCategory = false;
+        if(in_array("category", $withExtra)){
+            $displayCategory = true;
+        }
+        if(in_array("tags", $withExtra)){
+            $displayTags = true;
+        }
+        if(in_array("ingredients", $withExtra)){
+            $displayIngredients = true;
+        }
+
+        //making default variable with
         if (empty($allVariables['with']))
         {
             $with = 0;
@@ -46,27 +67,36 @@ class Recipe extends JsonResource
   
             //returning tags
             'tags'=> 
-                $this->tags($lang)->map(function ($item) use ($lang){
-                    $title = "title_tags_".$lang;
-                    //dd($item);
-                    $data = ['id' => $item->id, 'title' => $this->getTagName($item->id, $lang), 'slug' => $item->slug];
-                    return $data;
+                $this->tags($lang)->map(function ($item) use ($lang, $displayTags){
+                    if(!$displayTags)
+                        return null;
+                    else{
+                        $data = ['id' => $item->id, 'title' => $this->getTagName($item->id, $lang), 'slug' => $item->slug];
+                        return $data;
+                    }
                 }),
             
             //returning category
             'category'=> 
-                $this->category($lang)->map(function ($item) use ($lang){
-                    $data = ['id' => $item->id, 'title' =>  $this->getCategoryName($item->id, $lang), 'slug' => $item->slug];
-                    if(!empty($data))
+                $this->category($lang)->map(function ($item) use ($lang, $displayCategory){
+                    if(!$displayCategory)
+                        return null;
+                    else{
+                        $data = ['id' => $item->id, 'title' =>  $this->getCategoryName($item->id, $lang), 'slug' => $item->slug];
                         return $data;
-                    else 
-                        return "null"; //return null!!
+                    }
+                    
                 }),
+
             //returning ingredients
             'ingredients'=> 
-                $this->ingredients($lang)->map(function ($item) use ($lang){
-                    $data = ['id' => $item->id, 'title' => $this->getIngredientName($item->id, $lang), 'slug' => $item->slug];
-                    return $data;
+                $this->ingredients($lang)->map(function ($item) use ($lang, $displayIngredients){
+                    if(!$displayIngredients)
+                        return null;
+                    else{
+                        $data = ['id' => $item->id, 'title' => $this->getIngredientName($item->id, $lang), 'slug' => $item->slug];
+                        return $data;
+                    }
             }), 
         ]; 
     }

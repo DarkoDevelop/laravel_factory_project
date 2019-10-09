@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
+use DB;
 
 class Recipe extends Model
 {
@@ -110,4 +111,20 @@ class Recipe extends Model
             }
         }         
     }
+
+    //filtering by category(not inluded) 
+    public function getCategoryRecipeID(){
+            $data = DB::table('category')
+                         ->pluck('recipe_id');  
+            return $data;
+    }
+
+    //number for category filtering (included)
+    public function getCategoryNumber($num){
+        $data = DB::table('category')
+                     ->select('id', 'recipe_id')
+                     ->where('id','=', $num)
+                     ->pluck('recipe_id');
+        return $data;
+}
 }
