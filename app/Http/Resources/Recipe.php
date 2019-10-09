@@ -58,46 +58,28 @@ class Recipe extends JsonResource
         }else {
             $diff_time = $allVariables['diff_time'];
         }
-        
-        return [
+            //default 
+        return array_merge([
             'id' => $this->id,
             'title' => $this->titleTranslation($lang, $this->id),
             'description' => $this->descriptionTranslation($lang, $this->id),
             'status' => $this->getStatus($diff_time, $this->id),
-  
-            //returning tags
-            'tags'=> 
-                $this->tags($lang)->map(function ($item) use ($lang, $displayTags){
-                    if(!$displayTags)
-                        return null;
-                    else{
-                        $data = ['id' => $item->id, 'title' => $this->getTagName($item->id, $lang), 'slug' => $item->slug];
-                        return $data;
-                    }
-                }),
-            
-            //returning category
-            'category'=> 
-                $this->category($lang)->map(function ($item) use ($lang, $displayCategory){
-                    if(!$displayCategory)
-                        return null;
-                    else{
-                        $data = ['id' => $item->id, 'title' =>  $this->getCategoryName($item->id, $lang), 'slug' => $item->slug];
-                        return $data;
-                    }
-                    
-                }),
-
-            //returning ingredients
-            'ingredients'=> 
-                $this->ingredients($lang)->map(function ($item) use ($lang, $displayIngredients){
-                    if(!$displayIngredients)
-                        return null;
-                    else{
-                        $data = ['id' => $item->id, 'title' => $this->getIngredientName($item->id, $lang), 'slug' => $item->slug];
-                        return $data;
-                    }
-            }), 
-        ]; 
+            ],  
+            //optional displaying
+            //displaying category
+            $displayCategory ? ['category' => $this->tags($lang)->map(function ($item) use ($lang, $displayTags){
+                $data = ['id' => $item->id, 'title' => $this->getTagName($item->id, $lang), 'slug' => $item->slug];
+                return $data;
+            })]: [],
+            //displaying tags
+            $displayTags ? ['tags' => $this->tags($lang)->map(function ($item) use ($lang, $displayTags){
+                $data = ['id' => $item->id, 'title' => $this->getTagName($item->id, $lang), 'slug' => $item->slug];
+                return $data;
+            })]: [],
+            //displaying ingredients
+            $displayIngredients ? ['ingredients' =>  $this->ingredients($lang)->map(function ($item) use ($lang, $displayIngredients){
+                $data = ['id' => $item->id, 'title' => $this->getIngredientName($item->id, $lang), 'slug' => $item->slug];
+                return $data;
+            })] : []);
     }
 }
