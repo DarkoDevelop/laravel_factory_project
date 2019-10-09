@@ -85,13 +85,22 @@ class RecipeController extends Controller
         }
         elseif(is_int(intval($category)))
         {
-            $number = (intval($category));
-            $a = $recipeInstance->getCategoryNumber($number)->toArray();
-            $data = Recipe::where('id', '=', $a[0])->paginate($per_page);
+            if(!isset($tagsArray)){
+                $number = (intval($category));
+                $a = $recipeInstance->getCategoryNumber($number)->toArray();
+                $data = Recipe::where('id', '=', $a[0])->paginate($per_page);
+            }else{
+                $number = (intval($category));
+                $a = $recipeInstance->getCategoryNumber($number)->toArray();
+
+                //if category is equal to any of recipe_id which is get by tags
+                if(in_array($a[0],$tagsArray))
+                    $data = Recipe::where('id', '=', $a[0])->paginate($per_page);
+                else 
+                    return "There is no recipe in database with that tag_id and category_id";
+            }
         }
-
         return new RecipeCollection($data); 
-
     }  
 }
    
