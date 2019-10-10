@@ -3,7 +3,7 @@
 Before use, add:
 ```
 namespace Faker;
-use FakerRestaurant\Restaurant;
+use FakerRestaurant\Restaurant; //this line
 ```
 in: \vendor\fzaninotto\faker\src\Faker\Generator.php
 
