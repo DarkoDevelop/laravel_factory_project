@@ -55,6 +55,6 @@ class ValidWith implements Rule
      */
     public function message()
     {
-        return 'With must be string. You can use following seperated with comma: tags, category or ingredients.';
+        return 'With must be string. You can use following words seperated by comma: tags, category or ingredients.';
     }
 }

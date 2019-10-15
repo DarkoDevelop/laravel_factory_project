@@ -66,7 +66,7 @@ class RecipeController extends Controller
         }
 
         //dd(intval($category));
-        
+         /*
         //this part contains logic for sorting by category and tags
         if ($category == "!NULL") {
             if (!isset($tagsArray)) {
@@ -98,16 +98,20 @@ class RecipeController extends Controller
                 }      
             }
         }
-        /*
+        */
+        
+        //Category filtering
         if ($category == "!NULL") {
             $data = Recipe::paginate($per_page);
         } elseif ($category == "NULL") {
             $number = (intval($category));
             $a = $recipeInstance->getCategoryNumber($number)->toArray();
             $data = Recipe::where('id', '=', $a[0])->paginate($per_page);
-        } elseif (is_int(intval($category))) {
-
-        */
+        }  elseif (intval($category)) {
+            $number = (intval($category));
+            $a = $recipeInstance->getCategoryNumber($number);
+            $data = Recipe::whereIn('id', $a)->paginate($per_page);
+        }
 
 
 

@@ -126,7 +126,7 @@ class Recipe extends Model
         }         
     }
 
-    //filtering by category(not inluded) 
+    //filtering by category(not inluded) - for testing
     public function getCategoryRecipeID()
     {
             $data = DB::table('recipes')
@@ -138,9 +138,8 @@ class Recipe extends Model
     public function getCategoryNumber($num)
     {
         $data = DB::table('recipes')
-                     ->select('id')
-                     ->where('id','=', $num)
-                     ->pluck('id');
+                     ->where('category_id','=', $num)
+                     ->pluck('id')->toArray();
 
         return $data;
     } 
