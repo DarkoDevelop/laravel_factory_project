@@ -39,16 +39,6 @@ class FormRecipeRequest extends FormRequest
         ];
     }
 
-    //messages to be written if user enter invalid data
-    public function message()
-    {
-        return[
-            'lang.required' => 'Please enter valid existing language for request.',
-            'page.integer' => 'Please enter integer number for page request.',
-            'per_page.integer' => 'Please enter integer number for per page request.',
-        ];
-    }
-
     //to show all errors as json format
     protected function failedValidation(Validator $validator) {
         throw new HttpResponseException(response()->json($validator->errors(), 422));

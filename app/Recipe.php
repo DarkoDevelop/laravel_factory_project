@@ -126,11 +126,13 @@ class Recipe extends Model
         }         
     }
 
-    //filtering by category(not inluded) - for testing
+    //filtering by category - taking all category id-s to exclude them while searching for NULL category
     public function getCategoryRecipeID()
     {
             $data = DB::table('recipes')
-                         ->pluck('category_id');  
+                         ->where('category_id', null)
+                         ->pluck('id');
+                          
             return $data;
     }
 

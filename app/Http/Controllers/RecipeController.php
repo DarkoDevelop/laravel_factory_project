@@ -57,64 +57,38 @@ class RecipeController extends Controller
             $page = $validated['page'];
         }
         
-        //saving data to paginated format
-        //$data = Recipe::paginate($per_page);
-
+        //making sure to collect only recipe ID-s without category
         $numbers = $recipeInstance->getCategoryRecipeID()->toArray();
+
+        //getting only recipe ID-s where entered tag array belongs to that recipe
+        //and removing duplicates         
         if ($tags != null) {
             $tagsArray = array_unique($tagInstance->getRecipesID($tags));
         }
 
-        //dd(intval($category));
-         /*
-        //this part contains logic for sorting by category and tags
-        if ($category == "!NULL") {
-            if (!isset($tagsArray)) {
-                $data = Recipe::paginate($per_page);
-            } else {
-                $data = Recipe::whereIn('id', $tagsArray)->paginate($per_page);
-            }         
-        } elseif ($category == "NULL") {
-            if (!isset($tagsArray)) {
-                $data = Recipe::whereNotIn('id', $numbers)->paginate($per_page);
-            } else {
-                $data = Recipe::whereNotIn('id', $numbers)->whereIn('id', $tagsArray)->paginate($per_page);
-            }     
-        } elseif (intval($category)) {
-            if (!isset($tagsArray)) {
-                $number = (intval($category));
-                $a = $recipeInstance->getCategoryNumber($number)->toArray();
-                $data = Recipe::where('id', '=', $a[0])->paginate($per_page);
-            } else {
-                $number = (intval($category));
-                $a = $recipeInstance->getCategoryNumber($number)->toArray();
-
-                //if category is equal to any of recipe_id which is get by tags
-                if (in_array($a[0],$tagsArray)) {
-                    $data = Recipe::where('id', '=', $a[0])->paginate($per_page);
-                }    
-                else {
-                    return "There is no recipe in database with that tag_id and category_id";
-                }      
-            }
-        }
-        */
-        
         //Category filtering
-        if ($category == "!NULL") {
-            $data = Recipe::paginate($per_page);
+        if ($category == "!NULL") {  
+            $data = resolve(Recipe::class);
         } elseif ($category == "NULL") {
-            $number = (intval($category));
-            $a = $recipeInstance->getCategoryNumber($number)->toArray();
-            $data = Recipe::where('id', '=', $a[0])->paginate($per_page);
+            $data = Recipe::whereIn('id', $numbers);
         }  elseif (intval($category)) {
             $number = (intval($category));
-            $a = $recipeInstance->getCategoryNumber($number);
-            $data = Recipe::whereIn('id', $a)->paginate($per_page);
+            $categoryId = $recipeInstance->getCategoryNumber($number);
+            $data = Recipe::whereIn('id', $categoryId);
         }
 
+        //Tags filtering
+        if ((isset($tagsArray)) && ($category == "!NULL")) {
+            $data = $data->whereIn('id', $tagsArray);
+        } elseif ((isset($tagsArray)) && ($category == "NULL")) {
+            $data = $data->whereIn('id', $tagsArray);
+        } elseif ((isset($tagsArray)) && !(intval($category) == 0)) {
+            $array = array_intersect($categoryId, $tagsArray);
+            $data = $data->whereIn('id', $array);
+        }
 
-
+        //paginating data 
+        $data = $data->paginate($per_page);
         return new RecipeCollection($data); 
     }  
 }

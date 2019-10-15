@@ -38,7 +38,7 @@ $factory->define(Recipe::class, function (Faker $faker) {
         'created_at' => $firstDate,
         'updated_at' => $secondDate,
         'deleted_at' => $thirdDate,
-        'category_id' => $faker->numberBetween($min = 1, $max = 15),
+        'category_id' => $faker->randomElement($array = array ($faker->numberBetween($min = 1, $max = 15), null)),
     ];
 });
 
