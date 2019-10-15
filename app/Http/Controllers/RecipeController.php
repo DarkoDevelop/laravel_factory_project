@@ -62,11 +62,11 @@ class RecipeController extends Controller
 
         $numbers = $recipeInstance->getCategoryRecipeID()->toArray();
         if ($tags != null) {
-            $tagsArray = array_unique($tagInstance->recipes($tags));
+            $tagsArray = array_unique($tagInstance->getRecipesID($tags));
         }
 
-        //dd($tagsArray);
-
+        //dd(intval($category));
+        
         //this part contains logic for sorting by category and tags
         if ($category == "!NULL") {
             if (!isset($tagsArray)) {
@@ -80,7 +80,7 @@ class RecipeController extends Controller
             } else {
                 $data = Recipe::whereNotIn('id', $numbers)->whereIn('id', $tagsArray)->paginate($per_page);
             }     
-        } elseif (is_int(intval($category))) {
+        } elseif (intval($category)) {
             if (!isset($tagsArray)) {
                 $number = (intval($category));
                 $a = $recipeInstance->getCategoryNumber($number)->toArray();
@@ -98,6 +98,19 @@ class RecipeController extends Controller
                 }      
             }
         }
+        /*
+        if ($category == "!NULL") {
+            $data = Recipe::paginate($per_page);
+        } elseif ($category == "NULL") {
+            $number = (intval($category));
+            $a = $recipeInstance->getCategoryNumber($number)->toArray();
+            $data = Recipe::where('id', '=', $a[0])->paginate($per_page);
+        } elseif (is_int(intval($category))) {
+
+        */
+
+
+
         return new RecipeCollection($data); 
     }  
 }

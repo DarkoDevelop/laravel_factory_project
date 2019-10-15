@@ -3,6 +3,9 @@
 namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Console\Command;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class ValidCategory implements Rule
 {
@@ -40,6 +43,6 @@ class ValidCategory implements Rule
      */
     public function message()
     {
-        return 'The validation error message.';
+        return 'Invalid category entered. Category must be one of the following: number, NULL or !NULL.';
     }
 }

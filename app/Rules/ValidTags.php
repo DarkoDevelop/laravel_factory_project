@@ -30,9 +30,8 @@ class ValidTags implements Rule
         foreach ($data as $item) {
             if (!(preg_match("/[a-z]/i", $item)) && ((1 <= $value) && ($value <= 20))) {
                 return true;
-            }
-        }
-            
+            }   
+        }    
     }
 
     /**
@@ -42,6 +41,6 @@ class ValidTags implements Rule
      */
     public function message()
     {
-        return 'The validation error message.';
+        return 'You have entered invalid tags. Tags should be integer type and in 0 to 20 range.';
     }
 }

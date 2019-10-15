@@ -11,8 +11,14 @@ class Tag extends Model
     protected $table = 'tags';
     public $timestamps = false;
 
-    //relation with Recipe class using more to more relation
-    public function recipes($id)
+    //Relationship with recipes
+    public function recipes()
+    {
+        return $this->belongsTo(Recipes::class);
+    }
+
+    //Query for getting RecipeID-s
+    public function getRecipesID($id)
     {
         $data = DB::table('recipe_tag')
                     ->select('recipe_id')
