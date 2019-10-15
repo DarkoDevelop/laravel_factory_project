@@ -32,15 +32,18 @@ class ValidWith implements Rule
         if($num == 1){
             if(($data[0]=="tags") || ($data[0]=="ingredients") || ($data[0]=="category")){
                 return true;
-            }else 
+            }else {
                 return false;
+            }    
         }elseif($num == 2){
-            if((($data[0]=="tags") || ($data[0]=="ingredients") || ($data[0]=="category"))&&(($data[1]=="tags") || ($data[1]=="ingredients") || ($data[1]=="category")))
+            if((($data[0]=="tags") || ($data[0]=="ingredients") || ($data[0]=="category"))&&(($data[1]=="tags") || ($data[1]=="ingredients") || ($data[1]=="category"))){
                 return true;
+                } 
             }
         elseif($num == 3){
-            if((($data[0]=="tags") || ($data[0]=="ingredients") || ($data[0]=="category"))&&(($data[1]=="tags") || ($data[1]=="ingredients") || ($data[1]=="category"))&&(($data[2]=="tags") || ($data[2]=="ingredients") || ($data[2]=="category")))
-            return true;
+            if((($data[0]=="tags") || ($data[0]=="ingredients") || ($data[0]=="category"))&&(($data[1]=="tags") || ($data[1]=="ingredients") || ($data[1]=="category"))&&(($data[2]=="tags") || ($data[2]=="ingredients") || ($data[2]=="category"))){
+                return true;
+            }   
         }
     } 
     

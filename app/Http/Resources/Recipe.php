@@ -28,8 +28,10 @@ class Recipe extends JsonResource
         //with variable and showing/hiding optional section
         if(empty($allVariables['with'])){
             $withExtra = [];
-        }else 
+        }else {
             $withExtra = (explode(',', $allVariables['with']));
+        }
+           
         $displayIngredients = false;
         $displayTags = false;
         $displayCategory = false;

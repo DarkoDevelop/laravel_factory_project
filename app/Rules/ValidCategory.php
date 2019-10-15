@@ -28,8 +28,9 @@ class ValidCategory implements Rule
     {
         if((!(preg_match("/[a-z]/i", $value)) && ((1 <= $value) && ($value <= 5))) || ($value == "NULL") || ($value == "!NULL")){
             return true;
-        } else
+        } else{
             return false;
+        }     
     }
 
     /**

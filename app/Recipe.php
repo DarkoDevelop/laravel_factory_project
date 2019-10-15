@@ -84,6 +84,7 @@ class Recipe extends Model
     }
 
     //making function for returning status code for specific recipes
+    //logic for diff time
     public function getStatus($diff_time, $id){
         if($diff_time==0){
             return "created";
@@ -126,5 +127,5 @@ class Recipe extends Model
                      ->where('id','=', $num)
                      ->pluck('recipe_id');
         return $data;
-}
+    }
 }
