@@ -38,6 +38,7 @@ $factory->define(Recipe::class, function (Faker $faker) {
         'created_at' => $firstDate,
         'updated_at' => $secondDate,
         'deleted_at' => $thirdDate,
+        'category_id' => $faker->numberBetween($min = 1, $max = 15),
     ];
 });
 
@@ -48,7 +49,6 @@ $factory->define(Category::class, function (Faker $faker) {
         'categories_title_hr' => $faker->name,
         'categories_title_en' => $faker->name,
         'categories_title_de' => $faker->name,
-        'recipe_id' => $faker->unique()->numberBetween($min = 1, $max = 10),
     ];
 });
 

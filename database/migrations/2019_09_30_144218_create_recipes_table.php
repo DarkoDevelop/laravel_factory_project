@@ -16,6 +16,7 @@ class CreateRecipesTable extends Migration
         Schema::create('recipes', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->timestamps();
+            $table->integer('category_id')->unsigned()->nullable();
             $table->date('deleted_at')->nullable(); //changed for not being able to convert to timestamp, was softDeletes()
         });
     }

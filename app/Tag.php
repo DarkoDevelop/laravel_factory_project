@@ -12,7 +12,8 @@ class Tag extends Model
     public $timestamps = false;
 
     //relation with Recipe class using more to more relation
-    public function recipes($id){
+    public function recipes($id)
+    {
         $data = DB::table('recipe_tag')
                     ->select('recipe_id')
                     ->whereIn('tag_id', $id)

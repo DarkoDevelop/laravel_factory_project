@@ -11,7 +11,8 @@ class Ingredient extends Model
     public $timestamps = false;
 
     //relation with many to many using pivot with recipe class
-    public function recipes(){
+    public function recipes()
+    {
         return $this->belongsToMany(Recipe::class);
     }
 }

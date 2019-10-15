@@ -11,7 +11,8 @@ class Category extends Model
     public $timestamps = false;
 
     //relation to recipe - one on one relation
-    public function recipe(){
-        return $this->belongsTo(Recipe::class, 'recipe_id');
+    public function recipe()
+    {
+        return $this->hasMany(Recipe::class);
     }
 }

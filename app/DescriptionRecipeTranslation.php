@@ -12,7 +12,8 @@ class DescriptionRecipeTranslation extends Model
     protected $hidden = array('id', 'recipe_id');
 
     //making relation with recipe class
-    public function recipe(){
+    public function recipe()
+    {
         return $this->belongsTo(Recipe::class);
     }
 }

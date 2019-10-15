@@ -26,41 +26,40 @@ class Recipe extends JsonResource
         $lang = $allVariables['lang'];
 
         //with variable and showing/hiding optional section
-        if(empty($allVariables['with'])){
+        if (empty($allVariables['with'])) {
             $withExtra = [];
-        }else {
+        } else {
             $withExtra = (explode(',', $allVariables['with']));
         }
            
         $displayIngredients = false;
         $displayTags = false;
         $displayCategory = false;
-        if(in_array("category", $withExtra)){
+        if (in_array("category", $withExtra)) {
             $displayCategory = true;
         }
-        if(in_array("tags", $withExtra)){
+        if (in_array("tags", $withExtra)) {
             $displayTags = true;
         }
-        if(in_array("ingredients", $withExtra)){
+        if (in_array("ingredients", $withExtra)) {
             $displayIngredients = true;
         }
 
         //making default variable with
-        if (empty($allVariables['with']))
-        {
+        if (empty($allVariables['with'])) {
             $with = 0;
-        }else {
+        } else {
             $with = $allVariables['with'];
         }
 
         //Making default variable diff_time
-        if (empty($allVariables['diff_time']))
-        {
+        if (empty($allVariables['diff_time'])) {
             $diff_time = 0;
-        }else {
+        } else {
             $diff_time = $allVariables['diff_time'];
         }
-            //default 
+
+        //default 
         return array_merge([
             'id' => $this->id,
             'title' => $this->titleTranslation($lang, $this->id),
@@ -69,17 +68,17 @@ class Recipe extends JsonResource
             ],  
             //optional displaying
             //displaying category
-            $displayCategory ? ['category' => $this->tags($lang)->map(function ($item) use ($lang, $displayTags){
-                $data = ['id' => $item->id, 'title' => $this->getTagName($item->id, $lang), 'slug' => $item->slug];
+            $displayCategory ? ['category' => $this->category($lang)->map(function ($item) use ($lang){
+                $data = ['id' => $item->id, 'title' => $this->getCategoryName($item->id, $lang), 'slug' => $item->slug];
                 return $data;
             })]: [],
             //displaying tags
-            $displayTags ? ['tags' => $this->tags($lang)->map(function ($item) use ($lang, $displayTags){
+            $displayTags ? ['tags' => $this->tags($lang)->map(function ($item) use ($lang){
                 $data = ['id' => $item->id, 'title' => $this->getTagName($item->id, $lang), 'slug' => $item->slug];
                 return $data;
             })]: [],
             //displaying ingredients
-            $displayIngredients ? ['ingredients' =>  $this->ingredients($lang)->map(function ($item) use ($lang, $displayIngredients){
+            $displayIngredients ? ['ingredients' =>  $this->ingredients($lang)->map(function ($item) use ($lang){
                 $data = ['id' => $item->id, 'title' => $this->getIngredientName($item->id, $lang), 'slug' => $item->slug];
                 return $data;
             })] : []);

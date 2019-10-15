@@ -19,7 +19,6 @@ class RecipeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    static $lang;
     
     public function index(FormRecipeRequest $request)
     {
@@ -30,33 +29,31 @@ class RecipeController extends Controller
         $lang = $validated['lang'];
 
         //Making default variable tags and making as array instead of string(which is by default)
-        if(empty($validated['tags'])){
+        if (empty($validated['tags'])) {
             $tags = null;
-        }else {
+        } else {
             $tags = $validated['tags'];
             $tags = (explode(",",$tags));
         }
         
         //Making default variable category
-        if(empty($validated['category'])){
+        if (empty($validated['category'])) {
             $category = ("!NULL");
-        }else {
+        } else {
             $category = $validated['category'];
         }
             
         //Making default variable per_page
-        if (empty($validated['per_page']))
-        {
+        if (empty($validated['per_page'])) {
             $per_page = 0;
-        }else {
+        } else {
             $per_page = $validated['per_page'];
         }
             
         //Making default variable page
-        if (empty($validated['page']))
-        {
+        if (empty($validated['page'])) {
             $page = 0;
-        }else {
+        } else {
             $page = $validated['page'];
         }
         
@@ -64,42 +61,36 @@ class RecipeController extends Controller
         //$data = Recipe::paginate($per_page);
 
         $numbers = $recipeInstance->getCategoryRecipeID()->toArray();
-        if($tags != null){
+        if ($tags != null) {
             $tagsArray = array_unique($tagInstance->recipes($tags));
         }
+
         //dd($tagsArray);
 
         //this part contains logic for sorting by category and tags
-        if($category == "!NULL")
-        {
-            if(!isset($tagsArray)){
+        if ($category == "!NULL") {
+            if (!isset($tagsArray)) {
                 $data = Recipe::paginate($per_page);
-            }  
-            else{
+            } else {
                 $data = Recipe::whereIn('id', $tagsArray)->paginate($per_page);
             }         
-        }
-        elseif($category == "NULL")
-        {
-            if(!isset($tagsArray)){
+        } elseif ($category == "NULL") {
+            if (!isset($tagsArray)) {
                 $data = Recipe::whereNotIn('id', $numbers)->paginate($per_page);
-            }       
-            else{
+            } else {
                 $data = Recipe::whereNotIn('id', $numbers)->whereIn('id', $tagsArray)->paginate($per_page);
             }     
-        }
-        elseif(is_int(intval($category)))
-        {
-            if(!isset($tagsArray)){
+        } elseif (is_int(intval($category))) {
+            if (!isset($tagsArray)) {
                 $number = (intval($category));
                 $a = $recipeInstance->getCategoryNumber($number)->toArray();
                 $data = Recipe::where('id', '=', $a[0])->paginate($per_page);
-            }else{
+            } else {
                 $number = (intval($category));
                 $a = $recipeInstance->getCategoryNumber($number)->toArray();
 
                 //if category is equal to any of recipe_id which is get by tags
-                if(in_array($a[0],$tagsArray)){
+                if (in_array($a[0],$tagsArray)) {
                     $data = Recipe::where('id', '=', $a[0])->paginate($per_page);
                 }    
                 else {

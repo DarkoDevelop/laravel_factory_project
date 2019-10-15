@@ -13,14 +13,16 @@ class Recipe extends Model
 
     //One on one relationship with Category
     //Check if recipe has category
-    public function category($lang){
-        return $this->hasOne(Category::class)
+    public function category($lang)
+    {
+        return $this->belongsTo(Category::class)
                     ->select('id','categories_title_'.$lang, 'slug')
                     ->get();
     }
 
     //relation with translation description table with extra queries
-    public function titleTranslation($lang, $id){
+    public function titleTranslation($lang, $id)
+    {
         $data = $this->hasOne(RecipeTitleTranslation::class)
                 ->select('title_recipes_translation.title_recipes_'.$lang)
                 ->where('title_recipes_translation.id', $id)
@@ -30,7 +32,8 @@ class Recipe extends Model
     }
 
     //relation with translation description table with extra queries
-    public function descriptionTranslation($lang, $id){
+    public function descriptionTranslation($lang, $id)
+    {
         $data = $this->hasOne(DescriptionRecipeTranslation::class)
                 ->select('description_recipes_translation.description_recipes_'.$lang)
                 ->where('description_recipes_translation.id', $id)
@@ -40,55 +43,65 @@ class Recipe extends Model
     }
 
     //making relation with Tag class using pivot table
-    public function tags($lang){
+    public function tags($lang)
+    {
         $data = $this->belongsToMany(Tag::class)
                      ->select('tags.id','title_tags_'.$lang, 'slug')
                      ->get();
+
         return $data;
     }
 
     //get title name title on specific language
-    public function getTagName($id, $lang){
+    public function getTagName($id, $lang)
+    {
         $data = $this->belongsToMany(Tag::class)
                      ->select('tags.id','title_tags_'.$lang)
                      ->where('tags.id', $id)
                      ->first();
+
         return $data['title_tags_'.$lang];
     }
 
     //get ingredient name on specific language
-    public function getIngredientName($id, $lang){
+    public function getIngredientName($id, $lang)
+    {
         $data = $this->belongsToMany(Ingredient::class)
                      ->select('ingredients.id','title_ingredients_'.$lang)
                      ->where('ingredients.id', $id)
                      ->first();
+
         return $data['title_ingredients_'.$lang];
     }
 
     //get category name on specific language
-    public function getCategoryName($id, $lang){
-        $data = $this->hasOne(Category::class)
-                     ->select('category.id','categories_title_'.$lang)
-                     ->where('category.id', $id)
-                     ->first();
-        return $data['categories_title_'.$lang];
+    public function getCategoryName($id, $lang)
+    {    
+        $data = DB::table('category')
+                   ->where('id', '=' , $id)
+                   ->pluck('categories_title_'.$lang) ->toArray();
+
+        return $data[0];
     }
 
 
     //making relation with Ingredient class using pivot table
-    public function ingredients($lang){
+    public function ingredients($lang)
+    {
         $data = $this->belongsToMany(Ingredient::class)
                     ->select('ingredients.id','title_ingredients_'.$lang, 'slug')
                     ->get();
+
         return $data;
     }
 
     //making function for returning status code for specific recipes
     //logic for diff time
-    public function getStatus($diff_time, $id){
-        if($diff_time==0){
+    public function getStatus($diff_time, $id)
+    {
+        if ($diff_time==0) {
             return "created";
-        }else{
+        } else {
             //fetching required data from database
             $updated_at = $this->select('recipes.updated_at')->where('recipes.id', $id)->first();
             $updatedAt = $updated_at['updated_at'];
@@ -103,29 +116,33 @@ class Recipe extends Model
             $diffTimeFinal = Carbon::createFromTimestamp($diff_time)->toDateTimeString(); 
            
             //time to compare them
-            if ($diffTimeFinal <= $updatedAt){
+            if ($diffTimeFinal <= $updatedAt) {
                 return "created";
-            }else if(($diffTimeFinal > $updatedAt) && ($diffTimeFinal <= $deletedAtFinal)){
+            } elseif (($diffTimeFinal > $updatedAt) && ($diffTimeFinal <= $deletedAtFinal)) {
                 return "modified";
-            }else{
+            } else {
                 return "deleted";
             }
         }         
     }
 
     //filtering by category(not inluded) 
-    public function getCategoryRecipeID(){
-            $data = DB::table('category')
-                         ->pluck('recipe_id');  
+    public function getCategoryRecipeID()
+    {
+            $data = DB::table('recipes')
+                         ->pluck('category_id');  
             return $data;
     }
 
     //number for category filtering (included)
-    public function getCategoryNumber($num){
-        $data = DB::table('category')
-                     ->select('id', 'recipe_id')
+    public function getCategoryNumber($num)
+    {
+        $data = DB::table('recipes')
+                     ->select('id')
                      ->where('id','=', $num)
-                     ->pluck('recipe_id');
+                     ->pluck('id');
+
         return $data;
-    }
+    } 
+    
 }

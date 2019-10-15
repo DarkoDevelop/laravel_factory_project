@@ -12,7 +12,8 @@ class RecipeTitleTranslation extends Model
     protected $hidden = array('id', 'recipe_id');
 
     //relation with recipe table
-    public function recipe(){
+    public function recipe()
+    {
         return $this->belongsTo(Recipe::class);
     }
 }

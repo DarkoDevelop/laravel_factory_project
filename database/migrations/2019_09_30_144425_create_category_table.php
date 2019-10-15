@@ -19,7 +19,6 @@ class CreateCategoryTable extends Migration
             $table->string('categories_title_hr');
             $table->string('categories_title_en');
             $table->string('categories_title_de');
-            $table->integer('recipe_id')->unique()->unsigned()->nullable();
         });
     }
 

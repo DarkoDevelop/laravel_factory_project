@@ -27,8 +27,8 @@ class ValidTags implements Rule
     public function passes($attribute, $value)
     {
         $data = (explode(',', $value));
-        foreach($data as $item){
-            if(!(preg_match("/[a-z]/i", $item)) && ((1 <= $value) && ($value <= 20))){
+        foreach ($data as $item) {
+            if (!(preg_match("/[a-z]/i", $item)) && ((1 <= $value) && ($value <= 20))) {
                 return true;
             }
         }

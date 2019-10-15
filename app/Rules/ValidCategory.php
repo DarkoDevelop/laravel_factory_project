@@ -26,9 +26,9 @@ class ValidCategory implements Rule
     //validation for category field
     public function passes($attribute, $value)
     {
-        if((!(preg_match("/[a-z]/i", $value)) && ((1 <= $value) && ($value <= 5))) || ($value == "NULL") || ($value == "!NULL")){
+        if ((!(preg_match("/[a-z]/i", $value)) && ((1 <= $value) && ($value <= 5))) || ($value == "NULL") || ($value == "!NULL")) {
             return true;
-        } else{
+        } else {
             return false;
         }     
     }
